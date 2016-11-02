@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>School API</title>
+  <script src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>School-API</h1>
+    <h2>Student</h2>
+    <div class="btn-group-vertical">
+      <button id="getgrades" class="btn btn-primary">Check Grades</button>
+      <button id="getschedule" class="btn btn-primary">Check Schedule</button>
+      <button id="gethomework" class="btn btn-primary">Check Homework</button>
+    </div>
+    <br>
+    <br>
+    <select id="courses" class="form-control">
+      <option>Algebra</option>
+      <option>P.E.</option>
+      <option>English</option>
+      <option>Programming</option>
+      <option>Speech</option>
+      <option>Humanities</option>
+      <option>Botany</option>
+      <option>Shop</option>
+    </select>
+    <button id="addcourse" class="btn btn-primary">Add Course</button>
+    <button id="gethomeworkstatus" class="btn btn-primary">Finish Homework</button>
+  <div id="output"></div>
+  <script>
+    function getGrades() {
+      $.get("/grades", function(response) {
+        $('#output').text(response);
+      });
+    }
+    
+    function getSchedule() {
+      $.get("/schedule", function(response) {
+        $('#output').text(response);
+      });
+    }
+    function postSchedule() {
+      var course = $("#courses").val();
+      $.post("/schedule", course, function(response) {
+        $('#output').text(response);
+      });
+    }
+    function getHomework() {
+      //console.log("get getHomework");
+      $.get("/homework", function(response) {
+        $('#output').text(response);
+      });
+    }
+    function getHomeworkByCourse(course) {
+      //console.log("getHomeworkByCourse");
+      $.get("/homework" + course, function(response) {
+        $('#output').text(response);
+      });
+    }
+    function postHomework() {
+      var course = $("#courses").val();
+      $.post("/homework", course, function(response) {
+        $('#output').text(response);
+      });
+    }
+    $('#getgrades').click(getGrades);
+    $('#getschedule').click(getSchedule);
+    $('#gethomework').click(getHomework);
+    $('#addcourse').click(postSchedule);
+    $('#gethomeworkstatus').click(postHomework);
+  </script>
+</body>
+</html>
